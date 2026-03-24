@@ -5,6 +5,8 @@ public class Calculadora {
     private JFrame janela;
     private JTextField visorAtual;
     private JTextField visorEquacao;
+
+    private double resultado = 0;
     public Calculadora (){
         janela = new JFrame();
         
@@ -13,16 +15,18 @@ public class Calculadora {
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         JPanel painelVisores = new JPanel(new GridLayout(2, 1));
-        visorEquacao = new JTextField();
+        visorEquacao = new JTextField("0");
         visorEquacao.setEditable(false);
         visorEquacao.setHorizontalAlignment(JTextField.RIGHT);
-        visorEquacao.setBackground(Color.ORANGE);
+       
 
-        visorAtual = new JTextField("0");
+        visorAtual = new JTextField();
         visorAtual.setEditable(false);
         visorAtual.setHorizontalAlignment(JTextField.RIGHT);
         visorAtual.setFont(new Font("Arial", Font.BOLD, 28));
+        visorAtual.setBackground(null);
 
+        
         painelVisores.add(visorEquacao);
         painelVisores.add(visorAtual);
 
@@ -38,7 +42,7 @@ public class Calculadora {
 
         for (String texto : textos) {
             JButton btn = new JButton(texto);
-            btn.addActionListener(null);
+            btn.addActionListener(e -> tratarClique(texto));
             painelBotoes.add(btn);
         }
 
@@ -47,5 +51,31 @@ public class Calculadora {
         janela.add(painelBotoes);
         janela.add(painelVisores, BorderLayout.NORTH);
         janela.setVisible(true);
+    }
+    private void tratarClique(String comando){
+        if ("123456789".contains(comando)) {
+            visorAtual.setText(comando);
+        }else if ("+-*/=".contains(comando)){
+
+            if (comando.equals("=")) {
+                
+            }else{
+                visorEquacao.setText(visorEquacao.getText()+visorAtual.getText()+" "+comando+" ");
+            }
+            
+        }
+
+    }
+
+    private void calcular(double valor, String operador){
+        if (operador.equals("+")){
+            valor += resultado;
+        }else if(operador.equals("-")){
+            valor -= resultado;
+        }else if(operador.equals("*")){
+            valor *= resultado;
+        }else if(operador.equals("/")){
+            valor /= resultado;
+        }
     }
 }
